@@ -7,15 +7,15 @@
     <form action="{{ route('masyarakat.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label for="nomor_kartu_keluarga" class="form-label">Nomor Kartu Keluarga</label>
+            <label for="nomor_kartu_keluarga" class="form-label">Nomor KK</label>
             <input type="text" class="form-control" id="nomor_kartu_keluarga" name="nomor_kartu_keluarga" required>
         </div>
         <div class="mb-3">
-            <label for="nama_kepala_keluarga" class="form-label">Nama Kepala Keluarga</label>
+            <label for="nama_kepala_keluarga" class="form-label">Kepala Keluarga</label>
             <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" required>
         </div>
         <div class="mb-3">
-            <label for="nama_istri" class="form-label">Nama Istri</label>
+            <label for="nama_istri" class="form-label">Istri</label>
             <input type="text" class="form-control" id="nama_istri" name="nama_istri">
         </div>
         <div class="mb-3">
@@ -23,7 +23,7 @@
             <input type="number" class="form-control" id="saudara" name="saudara" required>
         </div>
         <div class="mb-3">
-            <label for="jumlah_anak" class="form-label">Jumlah Anak</label>
+            <label for="jumlah_anak" class="form-label">Anak</label>
             <input type="number" class="form-control" id="jumlah_anak" name="jumlah_anak" required>
         </div>
         <div class="mb-3">
@@ -39,7 +39,7 @@
             <input type="number" class="form-control" id="pendapatan_keluarga" name="pendapatan_keluarga" required>
         </div>
         <div class="mb-3">
-            <label for="status_tempat_tinggal" class="form-label">Status Tempat Tinggal</label>
+            <label for="status_tempat_tinggal" class="form-label">Tempat Tinggal</label>
             <select class="form-control" id="status_tempat_tinggal" name="status_tempat_tinggal" required>
                 <option value="">Pilih Status Tempat Tinggal</option>
                 <option value="Tetap">Tetap</option>

@@ -8,15 +8,15 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="nomor_kartu_keluarga" class="form-label">Nomor Kartu Keluarga</label>
+            <label for="nomor_kartu_keluarga" class="form-label">Nomor KK</label>
             <input type="text" class="form-control" id="nomor_kartu_keluarga" name="nomor_kartu_keluarga" value="{{ $masyarakat->nomor_kartu_keluarga }}" required>
         </div>
         <div class="mb-3">
-            <label for="nama_kepala_keluarga" class="form-label">Nama Kepala Keluarga</label>
+            <label for="nama_kepala_keluarga" class="form-label">Kepala Keluarga</label>
             <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" value="{{ $masyarakat->nama_kepala_keluarga }}" required>
         </div>
         <div class="mb-3">
-            <label for="nama_istri" class="form-label">Nama Istri</label>
+            <label for="nama_istri" class="form-label">Istri</label>
             <input type="text" class="form-control" id="nama_istri" name="nama_istri" value="{{ $masyarakat->nama_istri }}">
         </div>
         <div class="mb-3">
@@ -24,7 +24,7 @@
             <input type="number" class="form-control" id="saudara" name="saudara" value="{{ $masyarakat->saudara }}" required>
         </div>
         <div class="mb-3">
-            <label for="jumlah_anak" class="form-label">Jumlah Anak</label>
+            <label for="jumlah_anak" class="form-label">Anak</label>
             <input type="number" class="form-control" id="jumlah_anak" name="jumlah_anak" value="{{ $masyarakat->jumlah_anak }}" required>
         </div>
         <div class="mb-3">
@@ -40,7 +40,7 @@
             <input type="number" class="form-control" id="pendapatan_keluarga" name="pendapatan_keluarga" value="{{ $masyarakat->pendapatan_keluarga }}" required>
         </div>
         <div class="mb-3">
-            <label for="status_tempat_tinggal" class="form-label">Status Tempat Tinggal</label>
+            <label for="status_tempat_tinggal" class="form-label">Tempat Tinggal</label>
             <input type="text" class="form-control" id="status_tempat_tinggal" name="status_tempat_tinggal" value="{{ $masyarakat->status_tempat_tinggal }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>

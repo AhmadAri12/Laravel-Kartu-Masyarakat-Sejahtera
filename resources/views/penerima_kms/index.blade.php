@@ -11,14 +11,15 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Nomor Kartu Keluarga</th>
-                <th>Nama Kepala Keluarga</th>
+                <th>Nomor KK</th>
+                <th>Kepala Keluarga</th>
+                <th>Istri</th>
                 <th>Jumlah Saudara</th>
-                <th>Jumlah Anak</th>
-                <th>Biaya Kebutuhan/Bulan</th>
+                <th>Anak</th>
+                <th>Biaya Kebutuhan</th>
                 <th>Biaya Sekolah Anak</th>
                 <th>Pendapatan Keluarga</th>
-                <th>Status Tempat Tinggal</th>
+                <th>Tempat Tinggal</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
             <tr>
                 <td>{{ $penerima->masyarakat->nomor_kartu_keluarga }}</td>
                 <td>{{ $penerima->masyarakat->nama_kepala_keluarga }}</td>
+                <td>{{ $penerima->masyarakat->nama_istri }}</td>
                 <td>{{ $penerima->masyarakat->saudara }}</td>
                 <td>{{ $penerima->masyarakat->jumlah_anak }}</td>
                 <td>{{ $penerima->masyarakat->biaya_kebutuhan_tiap_bulan }}</td>

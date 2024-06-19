@@ -14,15 +14,15 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Nomor Kartu Keluarga</th>
-                <th>Nama Kepala Keluarga</th>
-                <th>Nama Istri</th>
+                <th>Nomor KK</th>
+                <th>Kepala Keluarga</th>
+                <th>Istri</th>
                 <th>Saudara</th>
-                <th>Jumlah Anak</th>
-                <th>Biaya Kebutuhan Tiap Bulan</th>
+                <th>Anak</th>
+                <th>Biaya Kebutuhan</th>
                 <th>Biaya Sekolah Anak</th>
                 <th>Pendapatan Keluarga</th>
-                <th>Status Tempat Tinggal</th>
+                <th>Tempat Tinggal</th>
                 <th>Actions</th>
             </tr>
         </thead>

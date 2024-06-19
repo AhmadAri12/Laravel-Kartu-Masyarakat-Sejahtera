@@ -36,15 +36,15 @@
     <table>
         <thead>
             <tr>
-                <th>Nomor Kartu Keluarga</th>
-                <th>Nama Kepala Keluarga</th>
-                <th>Nama Istri</th>
+                <th>Nomor KK</th>
+                <th>Kepala Keluarga</th>
+                <th>Istri</th>
                 <th>Saudara</th>
-                <th>Jumlah Anak</th>
-                <th>Biaya Kebutuhan Tiap Bulan</th>
+                <th>Anak</th>
+                <th>Biaya Kebutuhan</th>
                 <th>Biaya Sekolah Anak</th>
                 <th>Pendapatan Keluarga</th>
-                <th class="nowrap small-font">Status Tempat Tinggal</th>
+                <th class="nowrap small-font">Tempat Tinggal</th>
             </tr>
         </thead>
         <tbody>
