@@ -37,10 +37,9 @@
         <thead>
             <tr>
                 <th>Nomor KK</th>
-                <th>Kepala Keluarga</th>
-                <th>Istri</th>
-                <th>Saudara</th>
-                <th>Anak</th>
+                <th>Nama Kepala Keluarga</th>
+                <th>Nama Istri</th>
+                <th>Jumlah Anak</th>
                 <th>Biaya Kebutuhan</th>
                 <th>Biaya Sekolah Anak</th>
                 <th>Pendapatan Keluarga</th>
@@ -53,7 +52,6 @@
                 <td>{{ $masyarakat->nomor_kartu_keluarga }}</td>
                 <td>{{ $masyarakat->nama_kepala_keluarga }}</td>
                 <td>{{ $masyarakat->nama_istri }}</td>
-                <td>{{ $masyarakat->saudara }}</td>
                 <td>{{ $masyarakat->jumlah_anak }}</td>
                 <td>{{ $masyarakat->biaya_kebutuhan_tiap_bulan }}</td>
                 <td>{{ $masyarakat->biaya_sekolah_anak }}</td>

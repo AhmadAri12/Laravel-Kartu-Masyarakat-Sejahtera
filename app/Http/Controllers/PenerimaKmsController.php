@@ -1,92 +1,89 @@
 <?php
+// app/Http/Controllers/PenerimaKmsController.php
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Masyarakat;
 use App\Models\PenerimaKms;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Services\DecisionTreeService;
-use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade as PDF;
+use App\Services\DecisionTree;
 
 class PenerimaKmsController extends Controller
 {
-    // Properti untuk menyimpan instance dari DecisionTreeService
-    protected $decisionTreeService;
-
-    // Konstruktor untuk menginisialisasi DecisionTreeService
-    public function __construct(DecisionTreeService $decisionTreeService)
+    public function index(Request $request)
     {
-        $this->decisionTreeService = $decisionTreeService;
-    }
+        // Mengambil input pencarian
+        $search = $request->input('search');
 
-    // Metode untuk menampilkan daftar penerima KMS
-    public function index()
-    {
-        // Mengambil semua data masyarakat
-        $masyarakatList = Masyarakat::all();
+        // Mengambil data masyarakat, menerapkan filter pencarian jika ada
+        $masyarakats = Masyarakat::where(function($query) use ($search) {
+            if ($search) {
+                $query->where('nama_kepala_keluarga', 'LIKE', '%' . $search . '%');
+            }
+        })->get();
 
-        // Mengevaluasi setiap masyarakat apakah memenuhi syarat sebagai penerima KMS
-        foreach ($masyarakatList as $masyarakat) {
-            $isPenerima = $this->decisionTreeService->evaluateCriteria($masyarakat);
-            if ($isPenerima === 1) {
-                // Jika memenuhi syarat, tambahkan atau perbarui data penerima KMS
-                PenerimaKms::updateOrCreate(
-                    ['masyarakat_id' => $masyarakat->id]
-                );
-            } elseif ($isPenerima === null) {
-                // Jika ada kesalahan saat evaluasi, catat peringatan ke log
-                Log::warning('Failed to evaluate criteria for masyarakat ID: ' . $masyarakat->id);
+        // Buat dataset untuk pohon keputusan
+        $data = [];
+        foreach ($masyarakats as $masyarakat) {
+            // Hitung rata-rata
+            $average = ($masyarakat->biaya_kebutuhan_tiap_bulan + $masyarakat->biaya_sekolah_anak + $masyarakat->pendapatan_keluarga) / 3;
+
+            // Sesuaikan rata-rata berdasarkan status tempat tinggal
+            if ($masyarakat->status_tempat_tinggal == 'Ngontrak') {
+                $average -= 700000;
+            }
+
+            // Tentukan label berdasarkan rata-rata yang sudah disesuaikan
+            $label = $average < 300000 ? 'Penerima KMS' : 'Bukan Penerima KMS';
+
+            $data[] = [
+                'biaya_kebutuhan_tiap_bulan' => $masyarakat->biaya_kebutuhan_tiap_bulan,
+                'biaya_sekolah_anak' => $masyarakat->biaya_sekolah_anak,
+                'pendapatan_keluarga' => $masyarakat->pendapatan_keluarga,
+                'status_tempat_tinggal' => $masyarakat->status_tempat_tinggal,
+                'label' => $label
+            ];
+        }
+
+        // Buat pohon keputusan
+        $tree = new DecisionTree($data);
+
+        // Hapus data penerima KMS yang ada dan masukkan data baru
+        PenerimaKms::truncate();
+        foreach ($masyarakats as $masyarakat) {
+            $row = [
+                'biaya_kebutuhan_tiap_bulan' => $masyarakat->biaya_kebutuhan_tiap_bulan,
+                'biaya_sekolah_anak' => $masyarakat->biaya_sekolah_anak,
+                'pendapatan_keluarga' => $masyarakat->pendapatan_keluarga,
+                'status_tempat_tinggal' => $masyarakat->status_tempat_tinggal
+            ];
+
+            $label = $tree->classify($row);
+            if ($label === 'Penerima KMS') {
+                PenerimaKms::create(['masyarakat_id' => $masyarakat->id]);
             }
         }
 
-        // Mengambil semua data penerima KMS beserta data masyarakat terkait
+        // Mengambil semua data PenerimaKms dengan data masyarakat yang terkait
         $penerimaKms = PenerimaKms::with('masyarakat')->get();
 
-        // Menampilkan data penerima KMS di view
+        // Mengembalikan view dengan data penerima KMS
         return view('penerima_kms.index', compact('penerimaKms'));
     }
 
-    // Metode untuk mencetak laporan penerima KMS dalam format PDF
     public function cetak()
     {
-        // Mengambil semua data penerima KMS
+        // Mengambil semua data masyarakat untuk laporan
         $penerimaKms = PenerimaKms::all();
 
-        // Membuat PDF dari view 'penerima_kms.report' dengan data penerima KMS
-        $pdf = Pdf::loadview('penerima_kms.report', compact('penerimaKms'));
+        // Load view 'masyarakat.report' dan generate PDF
+        $pdf = PDF::loadView('penerima_kms.report', compact('penerimaKms'));
 
-        // Mengunduh PDF dengan nama 'penerima_kms_report.pdf'
-        return $pdf->download('penerima_kms_report.pdf');
-    }
-
-    // Metode untuk melatih decision tree dengan data masyarakat
-    public function trainDecisionTree()
-    {
-        // Mengambil semua data masyarakat
-        $masyarakatList = Masyarakat::all();
-
-        $samples = [];
-        $labels = [];
-
-        // Membuat sampel dan label dari data masyarakat
-        foreach ($masyarakatList as $masyarakat) {
-            $samples[] = [
-                $masyarakat->saudara,
-                $masyarakat->jumlah_anak,
-                $masyarakat->biaya_kebutuhan_tiap_bulan + ($masyarakat->biaya_sekolah_anak ?? 0),
-                $masyarakat->pendapatan_keluarga,
-                $masyarakat->status_tempat_tinggal === 'ngontrak' ? 1 : 0
-            ];
-
-            // Label: 1 untuk penerima KMS, 0 untuk bukan penerima KMS
-            $labels[] = ($masyarakat->saudara > 4 && $masyarakat->jumlah_anak > 3 && ($masyarakat->biaya_kebutuhan_tiap_bulan + ($masyarakat->biaya_sekolah_anak ?? 0)) > $masyarakat->pendapatan_keluarga && $masyarakat->status_tempat_tinggal === 'ngontrak') ? 1 : 0;
-        }
-
-        // Melatih decision tree dengan sampel dan label
-        $this->decisionTreeService->train($samples, $labels);
-
-        // Mengembalikan respons JSON bahwa pelatihan berhasil
-        return response()->json(['message' => 'Decision tree trained successfully']);
+        // Download file PDF dengan nama 'masyarakat_report.pdf'
+        return $pdf->download('penerima_kms.pdf');
     }
 }
+
+
+

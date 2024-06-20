@@ -12,11 +12,10 @@ class CreateMasyarakatsTable extends Migration
             $table->id();
             $table->bigInteger('nomor_kartu_keluarga')->unique();
             $table->string('nama_kepala_keluarga');
-            $table->string('nama_istri')->nullable();
-            $table->integer('saudara');
+            $table->string('nama_istri');
             $table->integer('jumlah_anak');
             $table->decimal('biaya_kebutuhan_tiap_bulan', 15, 2);
-            $table->decimal('biaya_sekolah_anak', 15, 2)->nullable();
+            $table->decimal('biaya_sekolah_anak', 15, 2);
             $table->decimal('pendapatan_keluarga', 15, 2);
             $table->string('status_tempat_tinggal');
             $table->timestamps();
@@ -28,4 +27,3 @@ class CreateMasyarakatsTable extends Migration
         Schema::dropIfExists('masyarakats');
     }
 }
-

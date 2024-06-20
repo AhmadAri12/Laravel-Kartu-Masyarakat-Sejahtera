@@ -11,23 +11,19 @@
             <input type="text" class="form-control" id="nomor_kartu_keluarga" name="nomor_kartu_keluarga" required>
         </div>
         <div class="mb-3">
-            <label for="nama_kepala_keluarga" class="form-label">Kepala Keluarga</label>
+            <label for="nama_kepala_keluarga" class="form-label">Nama Kepala Keluarga</label>
             <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" required>
         </div>
         <div class="mb-3">
-            <label for="nama_istri" class="form-label">Istri</label>
+            <label for="nama_istri" class="form-label">Nama Istri</label>
             <input type="text" class="form-control" id="nama_istri" name="nama_istri">
         </div>
         <div class="mb-3">
-            <label for="saudara" class="form-label">Saudara</label>
-            <input type="number" class="form-control" id="saudara" name="saudara" required>
-        </div>
-        <div class="mb-3">
-            <label for="jumlah_anak" class="form-label">Anak</label>
+            <label for="jumlah_anak" class="form-label">Jumlah Anak</label>
             <input type="number" class="form-control" id="jumlah_anak" name="jumlah_anak" required>
         </div>
         <div class="mb-3">
-            <label for="biaya_kebutuhan_tiap_bulan" class="form-label">Biaya Kebutuhan Tiap Bulan</label>
+            <label for="biaya_kebutuhan_tiap_bulan" class="form-label">Biaya Kebutuhan</label>
             <input type="number" class="form-control" id="biaya_kebutuhan_tiap_bulan" name="biaya_kebutuhan_tiap_bulan" required>
         </div>
         <div class="mb-3">
@@ -46,7 +42,7 @@
                 <option value="Ngontrak">Ngontrak</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
 @endsection
